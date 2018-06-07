@@ -8,4 +8,6 @@
 
 ;; バーコードから楽天booksで書籍を探す
 ;; https://books.rakuten.co.jp/search/nm?sitem=9784274067211 的な。
-(client/get "https://books.rakuten.co.jp/search/nm?sitem=9784274067211")
+(defn get-book-info-from-rakuten [bcd]
+  (client/get "https://books.rakuten.co.jp/search/nm"
+            {:query-params {:sitem bcd}}))
