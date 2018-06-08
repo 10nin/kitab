@@ -1,6 +1,7 @@
 (ns kitab.core)
 (require '[clj-http.client :as client])
 
+(def *BOOK-LIST* (ref '()))
 (defrecord Book [book-name, barcode])
 
 (defn gen-book [name, bcd]
@@ -11,3 +12,6 @@
 (defn get-book-info-from-rakuten [bcd]
   (client/get "https://books.rakuten.co.jp/search/nm"
             {:query-params {:sitem bcd}}))
+
+(defn add-to-book-list [book]
+  (dosync (ref-set *BOOK-LIST* book)))
