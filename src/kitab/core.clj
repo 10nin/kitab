@@ -14,4 +14,5 @@
             {:query-params {:sitem bcd}}))
 
 (defn add-to-book-list [book]
-  (dosync (ref-set *BOOK-LIST* book)))
+  (dosync (ref-set *BOOK-LIST* (conj @*BOOK-LIST* book))))
+
