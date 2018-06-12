@@ -1,7 +1,7 @@
 (ns kitab.core)
 (require '[clj-http.client :as client])
 
-(def *BOOK-LIST* (ref '()))
+(def ^:dynamic *BOOK-LIST* (ref '()))
 (defrecord Book [book-name, barcode])
 
 (defn gen-book [name, bcd]
@@ -16,3 +16,5 @@
 (defn add-to-book-list [book]
   (dosync (ref-set *BOOK-LIST* (conj @*BOOK-LIST* book))))
 
+(defn find-books-by-title [title]
+  (filter #(= title (:book-name %)) @*BOOK-LIST*))
