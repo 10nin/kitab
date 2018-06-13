@@ -18,3 +18,7 @@
 
 (defn find-books-by-title [title]
   (filter #(= title (:book-name %)) @*BOOK-LIST*))
+
+(defn remove-book-by-title [title]
+  (dosync (ref-set *BOOK-LIST* (remove #(= titl (:book-name %)) @*BOOK-LIST*))))
+
