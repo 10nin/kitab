@@ -13,6 +13,10 @@
   (client/get "https://books.rakuten.co.jp/search/nm"
             {:query-params {:sitem bcd}}))
 
+(defn same-book? [book1, book2]
+  (and (= (:book-name book1) (:book-name book2))
+       (= (:barcode book1) (:barcode book2))))
+          
 (defn add-to-book-list [book]
   (dosync (ref-set *BOOK-LIST* (conj @*BOOK-LIST* book))))
 
@@ -21,6 +25,9 @@
 
 (defn find-books-by-barcode [barcode]
   (filter #(= barcode (:barcode %)) @*BOOK-LIST*))
+
+(defn find-books [book]
+  (filter #(= (same-book? book %)) @*BOOK-LIST*))
 
 (defn remove-books-by-title [title]
   (dosync (ref-set *BOOK-LIST* (remove #(= title (:book-name %)) @*BOOK-LIST*))))
