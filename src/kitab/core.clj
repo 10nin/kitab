@@ -19,6 +19,11 @@
 (defn find-books-by-title [title]
   (filter #(= title (:book-name %)) @*BOOK-LIST*))
 
-(defn remove-book-by-title [title]
-  (dosync (ref-set *BOOK-LIST* (remove #(= titl (:book-name %)) @*BOOK-LIST*))))
+(defn find-books-by-barcode [barcode]
+  (filter #(= barcode (:barcode %)) @*BOOK-LIST*))
 
+(defn remove-books-by-title [title]
+  (dosync (ref-set *BOOK-LIST* (remove #(= title (:book-name %)) @*BOOK-LIST*))))
+
+(defn remove-books-by-barcode [barcode]
+  (dosync (ref-set *BOOK-LIST* (remove #(= barcode (:barcode %)) @*BOOK-LIST*))))
