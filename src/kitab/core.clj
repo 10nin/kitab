@@ -4,14 +4,14 @@
 (def ^:dynamic *BOOK-LIST* (ref '()))
 (defrecord Book [book-name, barcode])
 
-(defn gen-book [name, bcd]
+(defn make-book [name, bcd]
   (->Book name, bcd))
 
 ;; バーコードから楽天booksで書籍を探す
 ;; https://books.rakuten.co.jp/search/nm?sitem=9784274067211 的な。
-(defn get-book-info-from-rakuten [bcd]
+(defn get-book-info-from-rakuten [book]
   (client/get "https://books.rakuten.co.jp/search/nm"
-            {:query-params {:sitem bcd}}))
+            {:query-params {:sitem (:barcode book)}}))
 
 (defn same-book? [book1, book2]
   (and (= (:book-name book1) (:book-name book2))
@@ -34,3 +34,6 @@
 
 (defn remove-books-by-barcode [barcode]
   (dosync (ref-set *BOOK-LIST* (remove #(= barcode (:barcode %)) @*BOOK-LIST*))))
+
+(defn clear-book-list []
+  (dosync (ref-set *BOOK-LIST* '())))
